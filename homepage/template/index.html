@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Page</title>
+
+    <link href="{% static '/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/main.css' %}" rel="stylesheet">
+    <link href="{% static '/css/font-style.css' %}" rel="stylesheet">
+    <link href="{% static '/css/flexslider.css' %}" rel="stylesheet">
+
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static '/js/dash-charts.js' %}"></script>
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+
+    <!--
+    <script type="text/javascript" src="{% static 'js/noty/jquery.noty.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/noty/layouts/top.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/noty/layouts/topLeft.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/noty/layouts/topRight.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/noty/layouts/topCenter.js' %}"></script>
+    -->
+  </head>
+
+  <body>
+    <input type="hidden" id="all_cnt" name="variable" value="{{ data.all }}">
+    <input type="hidden" id="net_cnt" name="variable" value="{{ data.netflix }}">
+    <input type="hidden" id="hulu_cnt" name="variable" value="{{ data.hulu }}">
+    <input type="hidden" id="dis_cnt" name="variable" value="{{ data.disney }}">
+    <input type="hidden" id="pv_cnt" name="variable" value="{{ data.pv }}">
+
+      <div class="container">
+
+      <!-- FIRST ROW OF BLOCKS -->
+        <div class="row">
+
+        <!-- USER PROFILE BLOCK -->
+          <div class="col-sm-3 col-lg-3">
+            <div class="dash-unit">
+              <hr>
+              <h2>Netflix</h2>
+              <div id="netflix"></div>
+
+            </div>
+          </div>
+
+        <!-- DONUT CHART BLOCK -->
+          <div class="col-sm-3 col-lg-3">
+            <div class="dash-unit">
+              <hr>
+              <h2>Hulu</h2>
+              <div id="hulu"></div>
+            </div>
+          </div>
+
+        <!-- DONUT CHART BLOCK -->
+          <div class="col-sm-3 col-lg-3">
+            <div class="dash-unit">
+              <hr>
+              <h2>Prime Video</h2>
+              <div id="space"></div>
+            </div>
+          </div>
+
+          <div class="col-sm-3 col-lg-3">
+
+          </div>
+
+          <div class="col-sm-3 col-lg-3">
+            <div class="dash-unit">
+              <hr>
+              <h2>Disney+</h2>
+              <div id="disney"></div>
+            </div>
+          </div>
+
+        </div><!-- /row -->
+
+    <script>
+      window.onload = function(){
+        {% for select in selected %}
+              document.getElementById("{{select}}").checked = true;
+        {% endfor %}
+
+      };
+    </script>
+      <!-- FOURTH ROW OF BLOCKS -->
+    <div class="row">
+      <div class="col-sm-9 col-lg-9">
+        <div class="dash-unit">
+            <dtitle>Genres</dtitle>
+            <hr>
+              <form method="post">{% csrf_token %}
+              <div class="col-sm-4">
+                <input type="checkbox" class="custom-control-input" name="genre" value="all" id="all">
+                <label class="custom-control-label" for="all">ALL</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Action" id="Action">
+                <label class="custom-control-label" for="Action">Action</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Adventure" id="Adventure">
+                <label class="custom-control-label" for="Adventure">Adventure</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Animation" id="Animation">
+                <label class="custom-control-label" for="Animation">Animation</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Biography" id="Biography">
+                <label class="custom-control-label" for="Biography">Biography</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Comedy" id="Comedy">
+                <label class="custom-control-label" for="Comedy">Comedy</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Crime" id="Crime">
+                <label class="custom-control-label" for="Crime">Crime</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Documentary" id="Documentary">
+                <label class="custom-control-label" for="Documentary">Documentary</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Drama" id="Drama">
+                <label class="custom-control-label" for="Drama">Drama</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Family" id="Family">
+                <label class="custom-control-label" for="Family">Family</label>
+                <br>
+
+              </div>
+              <div class="col-sm-4">
+                <input type="checkbox" class="custom-control-input" name="genre" value="Fantasy" id="Fantasy">
+                <label class="custom-control-label" for="Fantasy">Fantasy</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Film-Noir" id="Film-Noir">
+                <label class="custom-control-label" for="Film-Noir">Film-Noir</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Game-Show" id="Game-Show">
+                <label class="custom-control-label" for="Game-Show">Game-Show</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="History" id="History">
+                <label class="custom-control-label" for="History">History</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Horror" id="Horror">
+                <label class="custom-control-label" for="Horror">Horror</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Music" id="Music">
+                <label class="custom-control-label" for="Music">Music</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Musical" id="Musical">
+                <label class="custom-control-label" for="Musical">Musical</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Mystery" id="Mystery">
+                <label class="custom-control-label" for="Mystery">Mystery</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="News" id="News">
+                <label class="custom-control-label" for="News">News</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Reality_TV" id="Reality_TV">
+                <label class="custom-control-label" for="Reality_TV">Reality_TV</label>
+                <br>
+              </div>
+              <div class="col-sm-4">
+                <input type="checkbox" class="custom-control-input" name="genre" value="Romance" id="Romance">
+                <label class="custom-control-label" for="Romance">Romance</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Sci-Fi" id="Sci-Fi">
+                <label class="custom-control-label" for="Sci-Fi">Sci-Fi</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Short" id="Short">
+                <label class="custom-control-label" for="Short">Short</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Sport" id="Sport">
+                <label class="custom-control-label" for="Sport">Sport</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Talk-Show" id="Talk-Show">
+                <label class="custom-control-label" for="Talk-Show">Talk-Show</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Thriller" id="Thriller">
+                <label class="custom-control-label" for="Thriller">Thriller</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="War" id="War">
+                <label class="custom-control-label" for="War">War</label>
+                <br>
+                <input type="checkbox" class="custom-control-input" name="genre" value="Western" id="Western">
+                <label class="custom-control-label" for="Western">Western</label>
+                <br>
+                <button type="submit" class="btn">저장</button>
+              </div>
+            </form>
+        </div>
+      </div>
+
+
+    </div><!--/row -->
+
+    </div>
+  </body>
+</html>
